@@ -1,0 +1,4 @@
+name = "rl-lsp"
+languages = ["rl"]
+
+[initialization_options]

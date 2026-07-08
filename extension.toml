@@ -1,0 +1,14 @@
+id = "rl"
+name = "RL"
+version = "0.1.0"
+schema_version = 1
+description = "rl language support"
+authors = ["MohamedGonem"]
+repository = "https://github.com/MohamedGonem/tree-sitter-rl"
+
+[grammars.rl]
+repository = "https://github.com/MohamedGonem/tree-sitter-rl"
+commit = "0b9681bffa2300a13d21bae950888e75c872ab6a"
+
+[language_servers.rl-lsp]
+languages = ["rl"]

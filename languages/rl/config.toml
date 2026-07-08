@@ -1,0 +1,5 @@
+name = "rl"
+grammar = "rl"
+path_suffixes = ["rl"]
+line_comments = ["//"]
+language_servers = ["rl-lsp"]
