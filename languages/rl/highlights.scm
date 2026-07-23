@@ -1,13 +1,15 @@
-;  keywords
+; ─── Keywords ───────────────────────────────────────────────────────────────
 
 [
   "if"
   "else"
+  "loop"
   "while"
   "for"
   "in"
   "return"
   "match"
+  "impl"
 ] @keyword.control
 
 (break_statement) @keyword.control
@@ -42,9 +44,7 @@
   "or"
 ] @keyword.operator
 
-(identifier) @variable
-
-;  literals
+; ─── Literals ───────────────────────────────────────────────────────────────
 
 (integer_literal) @number
 (float_literal)   @number.float
@@ -53,24 +53,29 @@
 (bool_literal)    @boolean
 (null_literal)    @constant.builtin
 
-;  functions
+; ─── Functions ──────────────────────────────────────────────────────────────
 
-; function declaration name
+; Function declaration
 (function_declaration
   name: (identifier) @function)
 
-; function call
+; Direct function call
 (call_expression
   function: (identifier) @function.call)
 
-; method call
+; Module path function call (e.g. module::fn_name())
+(call_expression
+  function: (path_expression
+    segment: (identifier) @function.call .))
+
+; Method call
 (method_call_expression
   method: (identifier) @function.method)
 
-; lambda
+; Lambda
 (lambda_expression) @function
 
-;  types (tag / record declarations)
+; ─── Types & Declarations ───────────────────────────────────────────────────
 
 (tag_declaration
   name: (identifier) @type)
@@ -78,19 +83,22 @@
 (record_declaration
   name: (identifier) @type)
 
+(impl_block
+  type: (identifier) @type)
+
 (tag_variant
   name: (identifier) @type.enum.variant)
 
 (record_field
   name: (identifier) @property)
 
-; user-defined type reference, e.g. `dec my_struct x = ...`
+; Type annotations in declarations/parameters
 (record_field type: (identifier) @type)
 (parameter type: (identifier) @type)
 (variable_declaration type: (identifier) @type)
 (constant_declaration type: (identifier) @type)
 
-;  struct literals / field & variant access
+; ─── Struct Literals & Fields ───────────────────────────────────────────────
 
 (struct_literal
   type: (identifier) @type)
@@ -110,12 +118,13 @@
   tag: (identifier) @type
   variant: (identifier) @type.enum.variant)
 
-;  match
+; ─── Match & Patterns ───────────────────────────────────────────────────────
 
 (wildcard_pattern) @constant.builtin
-"=>" @operator.arrow
 
-;  variables
+; ─── Identifiers & Variables ────────────────────────────────────────────────
+
+(identifier) @variable
 
 (variable_declaration
   name: (identifier) @variable)
@@ -126,7 +135,7 @@
 (parameter
   name: (identifier) @variable.parameter)
 
-;  operators
+; ─── Operators ──────────────────────────────────────────────────────────────
 
 [
   "=="
@@ -152,21 +161,24 @@
   "/"
 ] @operator.arithmetic
 
+"=>" @operator.arrow
 "->" @operator.arrow
 ".." @operator.range
 "::" @operator.path
 "!"  @operator.bang
+"?"  @operator
 
-; attributes
+; ─── Attributes ─────────────────────────────────────────────────────────────
 
 "!#" @attribute
 (attribute
-    name: (identifier) @attribute)
+  name: (identifier) @attribute)
 
-;  punctuation
+; ─── Punctuation ────────────────────────────────────────────────────────────
 
 "."  @punctuation.delimiter
 ","  @punctuation.separator
+":"  @punctuation.separator
 
 "(" @punctuation.bracket
 ")" @punctuation.bracket
@@ -175,11 +187,13 @@
 "{" @punctuation.bracket
 "}" @punctuation.bracket
 
-;  comments
+; ─── Comments ───────────────────────────────────────────────────────────────
 
 (line_comment)  @comment
+(block_comment) @comment
+(doc_comment)   @comment.documentation
 
-;  module paths
+; ─── Namespaces & Paths ─────────────────────────────────────────────────────
 
 (import_statement
   module: (path_expression) @namespace)

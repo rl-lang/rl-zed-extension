@@ -8,7 +8,7 @@ repository = "https://github.com/MohamedGonem/tree-sitter-rl"
 
 [grammars.rl]
 repository = "https://github.com/MohamedGonem/tree-sitter-rl"
-commit = "11c22890dc7f05646b801386297216f2bfc02c89"
+commit = "17bf1691f5f657892fdfe356b795c90ff88bab40"
 
 [language_servers.rl-lsp]
 languages = ["rl"]
