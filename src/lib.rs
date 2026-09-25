@@ -12,11 +12,17 @@ impl zed::Extension for RlExtension {
         _language_server_id: &LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        let rl_path = worktree.which("rl").ok_or("rl not found in PATH")?;
+        // `rlsp` ships with the rl-lang toolchain (install script, package
+        // managers, or `cargo install`). There is no auto-download: the
+        // release archives bundle the whole toolchain, which the extension
+        // sandbox cannot unpack.
+        let rlsp = worktree
+            .which("rlsp")
+            .ok_or("rlsp not found in PATH - install rl-lang (https://github.com/rl-lang/rl-lang/releases), then reopen the workspace")?;
 
         Ok(zed::Command {
-            command: rl_path,
-            args: vec!["lsp".to_string()],
+            command: rlsp,
+            args: vec![],
             env: Default::default(),
         })
     }

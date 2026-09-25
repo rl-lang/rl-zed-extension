@@ -2,4 +2,6 @@ name = "rl"
 grammar = "rl"
 path_suffixes = ["rl"]
 line_comments = ["//"]
+tab_size = 4
+hard_tabs = false
 language_servers = ["rl-lsp"]
